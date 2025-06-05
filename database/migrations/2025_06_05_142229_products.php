@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name')->required();
             $table->string('sku')->unique()->required();
-            $table->timestamps();
             $table->integer("status")->rrequired()->default(0);
             $table->string("description")->nullable();
+            $table->timestamps();
+            
+            $table->index("name");
+            $table->index("sku");
+            
         });
 
     }
