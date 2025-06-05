@@ -1,4 +1,2 @@
 
-<pre>
-    <php print_r($products); ?>
-</pre>
+@dd($product)

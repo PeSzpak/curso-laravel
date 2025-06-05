@@ -31,6 +31,7 @@ class ProductsController extends Controller
 
         ];
 
+        // return redirect()->route("products.create");
         return view("products.index", ["products" => $products]);
     }
 
@@ -49,6 +50,7 @@ class ProductsController extends Controller
     {
         $data = $request->all(); 
         dd($data);
+        return redirect()->back()->with("error", "Erro ao cadastrar produto");
     }
     public function show($id)
     {
@@ -77,17 +79,39 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $products = [
+            0 => [
+                "id" => 0,
+                "product_name" => "Produto 1",
+                "sku"          => "123",
+                "description"  => "Exemplo de descrição"
+            ], 
+            1 => [
+                "id" => 1,
+                "product_name" => "Produto 2",
+                "sku"          => "456",
+                "description"  => "Exemplo de descrição"
+            ],
+            2 => [
+                "id" => 2,
+                "product_name" => "Produto 3",
+                "sku"          => "789",
+                "description"  => "Exemplo de descrição"
+            ],
+
+        ];
+
+        return view("products.edit", ["product" => $products[$id]]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreOrUpdateRequest $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

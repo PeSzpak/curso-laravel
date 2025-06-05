@@ -8,11 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Cadastro de produtos</title>
+    <title>Editar Produto!</title>
   </head>
   <body>
+   
     <div class="container">
-      <h1>Cadastro de produtos</h1>
+      <h1>Edição de produtos</h1>
       @if ($errors->any())
     <div class="alert alert-danger">
 
@@ -29,24 +30,20 @@
     </div>
 
 @endif
-
-      @if(session("error"))
-      {{session("error")}}
-      @endif
-
-      <form action="{{ route('products.store') }}" method="POST">
+      {{-- <form action="{{ route('products.update', $product['id']) }}" method="PUT"> --}}
+        <form action="{{ route('products.update', $product['id']) }}" method="POST">
         @csrf
       <div class="form-group">
         <label for="exampleInputEmail1">Nome do Produto</label>
-        <input type="text" class="form-control" name="product_name" value="{{ old('product_name') }}">
+        <input type="text" class="form-control" name="product_name" value="{{ $product['product_name'] }}">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Codigo do Produto</label>
-    <input type="text" class="form-control" name="sku" value="{{ old('sku') }}">
+    <input type="text" class="form-control" name="sku" value="{{ $product['sku'] }}">
       </div>
       <div class="form-group">
         <label for="">Descrição</label>
-        <textarea name="discription" class="form-control" id="" cols="30" rows="10"></textarea>
+        <textarea name="discription" class="form-control" id="" cols="30" rows="10">{{ $product['description'] }}</textarea>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
       </form>
