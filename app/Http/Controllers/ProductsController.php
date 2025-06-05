@@ -2,56 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Products;
 use App\Http\Requests\StoreOrUpdateRequest;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        $products = [
-            0 => [
-                "product_name" => "Produto 1",
-                "sku"          => "123",
-                "description"  => "Exemplo de descrição"
-            ], 
-            1 => [
-                "product_name" => "Produto 2",
-                "sku"          => "456",
-                "description"  => "Exemplo de descrição"
-            ],
-            2 => [
-                "product_name" => "Produto 3",
-                "sku"          => "789",
-                "description"  => "Exemplo de descrição"
-            ],
+        $products = Products::get();
 
-        ];
-
-        // return redirect()->route("products.create");
         return view("products.index", ["products" => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view("products.create");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreOrUpdateRequest $request)
     {
-        $data = $request->all(); 
-        dd($data);
-        return redirect()->back()->with("error", "Erro ao cadastrar produto");
+
+            $data = $request->all();
+
+        $product = new Products();
+        $product->name = $request->input("name");
+        $product->sku = $request->input("sku");
+        $product->description = $request->input("description");
+        $product->save();
+        
+
+        dd($product);
+
+        return redirect()->back()->with("error", "Erro ao cadastrar o produto"); 
+
+        // "name",
+        // "brand_id",
+        // "sku",
+        // "description",
+        // "status",
+        // "stock"
     }
+  
     public function show($id)
     {
         $products = [
@@ -76,42 +70,22 @@ class ProductsController extends Controller
         return view("products.show", ["product" => $products[$id]]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+   
     public function edit($id)
     {
-        $products = [
-            0 => [
-                "id" => 0,
-                "product_name" => "Produto 1",
-                "sku"          => "123",
-                "description"  => "Exemplo de descrição"
-            ], 
-            1 => [
-                "id" => 1,
-                "product_name" => "Produto 2",
-                "sku"          => "456",
-                "description"  => "Exemplo de descrição"
-            ],
-            2 => [
-                "id" => 2,
-                "product_name" => "Produto 3",
-                "sku"          => "789",
-                "description"  => "Exemplo de descrição"
-            ],
+        $products = Products::find($id);
 
-        ];
-
-        return view("products.edit", ["product" => $products[$id]]);
+        return view("products.edit", ["product" => $products]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(StoreOrUpdateRequest $request, $id)
     {
-        dd($request->all());
+        $product = Products::where("id", $id)->update([
+            "name" => $request->name,
+            "description" => $request->description
+    ]);
+        dd($product); 
     }
 
     /**
@@ -119,6 +93,7 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Products::where("id", $id)->delete();
+        return "Registro deletado com sucesso!";
     }
 }
