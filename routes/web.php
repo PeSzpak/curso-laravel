@@ -1,30 +1,24 @@
 <?php
 
-use app\Http\Controllers\ExampleController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/test', function () {
-    return response()->json([
-       'message' => 'ok' 
-    ]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route:: get ("/hello", [ExampleController::class, "printHelloWorld"]);
+require __DIR__.'/auth.php';
 
-Route::prefix("/admin")->group(function(){
-    Route::get("/produtos", [ProductsController::class, "index"])->name("index");
-    Route::post("/salvar-produto", [ProductsController::class, "store"])->name("products.store");
-    Route::get("/produto/{id}", [ProductsController::class, "show"])->name("products.show");
-    Route::get("/editar-produto/{id}", [ProductsController::class, "edit"])->name("products.edit");
-    Route::post("/atualizar-produto/{id}", [ProductsController::class, "update"])->name("products.update");
-    Route::get("/cadastrar-produto", [ProductsController::class, "create"])->name("products.create");
-});
+Auth::routes();
 
-//Route::redirect("/produtos", "/cadastrar-produto", 301);
-//301 indica um redirect de url 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
