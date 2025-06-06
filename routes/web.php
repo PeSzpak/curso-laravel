@@ -18,8 +18,8 @@ Route::get('/test', function () {
 Route:: get ("/hello", [ExampleController::class, "printHelloWorld"]);
 
 Route::prefix("/admin")->group(function(){
-    Route::post("/salvar-produto", [ProductsController::class, "store"])->name("products.store");
     Route::get("/produtos", [ProductsController::class, "index"])->name("index");
+    Route::post("/salvar-produto", [ProductsController::class, "store"])->name("products.store");
     Route::get("/produto/{id}", [ProductsController::class, "show"])->name("products.show");
     Route::get("/editar-produto/{id}", [ProductsController::class, "edit"])->name("products.edit");
     Route::post("/atualizar-produto/{id}", [ProductsController::class, "update"])->name("products.update");

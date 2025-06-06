@@ -1,38 +1,28 @@
-@include("common.header")
+@extends('adminlte::page')
 
-@foreach ($products as $product)
-    <p>Nome: {{ $product->name }}</p>
-    <p>Nome: {{ $product->sku }}</p>
-    <p>Nome: {{ $product->description }}</p>
-    <p>Nome: {{ $product->stock }}</p>
+@section('title', 'Produtos')
 
-    @if (product->status == 0)
-        <p>Status: Desabilitado</p>
-        @else 
-        <p>Status: Habilitado</p>
-    @endif
+@section('content_header')
+    <div class="row">
+        <div class="col-11">
+            <h1>Produtos</h1>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success">Adicionar</button>
+        </div>
+    </div>
+@stop
 
-    <p>Nome: {{ $product->brand }}</p>
+@section('content')
+<div class="container-fluid">
+    <x-product-list :products="$products" />
+</div>
+@stop
 
-    @switch($product->status)
-        @case(1)
-        <p>Status: Desabilitado</p>
-            @break
-        @case(2)
-        <p>Status: Habilitado</p>
-            @break
-        @default
-        <p>Status: Desabilitado</p>
-    @endswitch
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
 
-    @empty($product->brand_id)
-        Produto: {{$product->name}} não possui marca cadastrada
-    @endempty
-    
-    The current UNIX timestamp is {{ time() }}.
-
-    <hr>
-
-@endforeach
-
-@include("common.footer")
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

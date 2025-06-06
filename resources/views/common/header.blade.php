@@ -11,12 +11,3 @@
     <title>Hello, world!</title>
   </head>
   <body>
-      <div class="container">
-        <div class="row">
-          <div class="card">
-            <div class="card-body bg-primary">
-              <p>Hello World for card!</p>
-            </div>
-          </div>
-        </div>
-      </div>
