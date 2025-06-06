@@ -11,8 +11,18 @@ class ProductsController extends Controller
     
     public function index()
     {
+        //left|right|inner Join, também é possivel usar where
+        // $products = Products::join("brands", "products.brands_id", "=", "brands.id")
+        // ->select(
+        //     "products.id",
+        //     "products.name",
+        //     "sku",
+        //     "brands_id",
+        //     "brands.name as brand_name"
+        // )
+        //     ->get();
+        
         $products = Products::get();
-
         return view("products.index", ["products" => $products]);
     }
 
@@ -25,7 +35,14 @@ class ProductsController extends Controller
     public function store(StoreOrUpdateRequest $request)
     {
 
+        // $data = $request->validate([
+        //     "product_name" => "string|required|min:3|max:100",
+        //     "sku" => "integer"
+        // ]);
+
             $data = $request->all();
+
+        //$product = Products::create($data);
 
         $product = new Products();
         $product->name = $request->input("name");
